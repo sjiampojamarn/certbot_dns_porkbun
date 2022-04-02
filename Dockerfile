@@ -1,17 +1,25 @@
-FROM alpine:3.17
+ARG BUILD_FROM=alpine
+FROM ${BUILD_FROM} AS build-image
 
-RUN apk add --no-cache python3 py3-pip py3-cryptography
+RUN \
+  apk add --no-cache python3 python3-dev py3-pip py3-cryptography bash \
+  && rm -rf /var/cache/apk/*
 
 WORKDIR /certbot_dns_porkbun
 
-COPY requirements-docker.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+ADD requirements.txt requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY . .
-
 RUN pip install --no-cache-dir .
 
-ENTRYPOINT ["certbot"]
+FROM ${BUILD_FROM}
+COPY --from=build-image /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+RUN apk add --no-cache openssl bash python3
 
-LABEL org.opencontainers.image.source="https://github.com/infinityofspace/certbot_dns_porkbun"
-LABEL org.opencontainers.image.licenses="MIT"
+COPY ./*.sh ./
+RUN chmod +x ./*.sh
