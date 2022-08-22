@@ -3,6 +3,7 @@
 ## run forever
 while true ; do
   date
+  certbot certificates
 
   while IFS= read -r line ; do  
     echo $line
