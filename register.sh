@@ -4,6 +4,11 @@
 while true ; do
   date
   certbot certificates
+  
+  for d in $(cat /conf/register.list | sed "s/,/ /g") ; do 
+    echo $d ;
+    echo "Q" | openssl s_client -servername $d -connect ${d}:443 2>/dev/null | openssl x509 -noout -dates ;
+  done
 
   while IFS= read -r line ; do  
     echo $line
