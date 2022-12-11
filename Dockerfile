@@ -1,7 +1,6 @@
 ARG BUILD_FROM=alpine
 FROM ${BUILD_FROM} AS build-image
-
-RUN apk add --no-cache python3 python3-dev py3-pip py3-cryptography bash \
+RUN apk add --no-cache python3 python3-dev py3-pip py3-cryptography bash gcc musl-dev linux-headers libffi-dev openssl-dev cargo \
   && rm -rf /var/cache/apk/*
 
 WORKDIR /certbot_dns_porkbun
@@ -9,7 +8,7 @@ WORKDIR /certbot_dns_porkbun
 RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-ADD requirements.txt requirements.txt
+COPY requirements-docker.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
 COPY . .
