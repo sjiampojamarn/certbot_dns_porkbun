@@ -22,3 +22,5 @@ RUN apk add --no-cache openssl bash python3
 
 COPY ./*.sh ./
 RUN chmod +x ./*.sh
+
+ENTRYPOINT ["./register.sh"]
