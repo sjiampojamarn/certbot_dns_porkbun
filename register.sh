@@ -1,5 +1,12 @@
 #!/bin/bash
 
+## init files 
+touch /conf/porkbun.ini
+touch /conf/email.ini
+touch /conf/register.list
+
+chmod 700 /conf/porkbun.ini
+
 ## run forever
 while true ; do
   date
