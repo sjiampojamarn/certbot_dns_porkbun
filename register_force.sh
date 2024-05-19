@@ -34,8 +34,5 @@ chmod 700 /conf/porkbun.ini
   
   ## Post command to prepare pem for HAProxy.
   ./combineFullPrivKeys.sh
-
-  ## Attempt to renew/create every 12h.
+  
   set -x
-  sleep 12h
-  set +x
