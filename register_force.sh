@@ -8,7 +8,6 @@ touch /conf/register.list
 chmod 700 /conf/porkbun.ini
 
 ## run once
-if true ; do
   date
   certbot certificates
   
@@ -40,5 +39,3 @@ if true ; do
   set -x
   sleep 12h
   set +x
-
-done
