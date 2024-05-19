@@ -19,7 +19,7 @@ chmod 700 /conf/porkbun.ini
   while IFS= read -r line ; do  
     echo $line
     set -x
-    certbot certonly -f \
+    certbot certonly --force-renewal \
       --non-interactive \
       --agree-tos \
       --email $(cat /conf/email.ini) \
